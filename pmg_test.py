@@ -21,5 +21,7 @@ with MPRester("IOa0xKupz6Ev2lHs") as m:
 for i in range(10):	
 	filename = (results[i]['task_id']) + ".cif"
 	print (filename)
-	structure = m.get_structure_by_material_id(results[i]['task_id'], final=True, conventional_unit_cell=False)
-	cifwriter.write_file(structure, filename)
+	structure = m.get_structure_by_material_id(results[i]['task_id'], final=True, conventional_unit_cell=True)
+	cif_write = cifwriter(structure)
+	cif_write.write_file(filename)
+#	print (structure)
