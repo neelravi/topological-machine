@@ -1,5 +1,7 @@
 from pymatgen.ext.matproj import MPRester
 from pymatgen.io.cif import CifWriter as cifwriter
+from ase.io import read, write
+import os
 
 basic_properties = ['task_id','pretty_formula','reduced_cell_formula','unit_cell_formula','spacegroup.number','energy','formation_energy_per_atom','density']
 electronic_properties = ['band_gap','efermi','total_magnetization']
@@ -19,9 +21,15 @@ with MPRester("IOa0xKupz6Ev2lHs") as m:
 	
 #for i in range(len(results)):
 for i in range(10):	
-	filename = (results[i]['task_id']) + ".cif"
-	print (filename)
+	basename = (results[i]['task_id']) ; extension = ".cif"
+	filename = basename + extension
+	directory = str(i).zfill(5)+ "-" + basename
+	os.mkdir(directory)
+	currentDirectory = os.getcwd()
+	print (currentDirectory)
+	os.chdir(os.path.join(currentDirectory, directory))
 	structure = m.get_structure_by_material_id(results[i]['task_id'], final=True, conventional_unit_cell=True)
 	cif_write = cifwriter(structure)
 	cif_write.write_file(filename)
-#	print (structure)
+	atoms = read(filename, index=0, format="cif", parallel=False)
+	os.chdir("..")
