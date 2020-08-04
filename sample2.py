@@ -17,5 +17,6 @@ criteria = { "spacegroup.number":  {"$in" : spacegroup_with_inversion}, "band_ga
 with MPRester("IOa0xKupz6Ev2lHs") as m:
 	results=m.query(criteria=criteria, properties=['cif'])
 #	results=m.query(criteria=criteria, properties=all_properties)	
+	print("Ravindra")
 	print(results[0])
 	print(len(results))
